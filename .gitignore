@@ -39,3 +39,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# local planning / prompt notes (not part of the app)
+/assets/prompts
+/PLAN.md

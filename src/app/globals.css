@@ -1,0 +1,176 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+  Design tokens for the PDF filler. This file is the single source of raw
+  values: hex lives here and nowhere else. Everything downstream consumes the
+  generated utilities / CSS variables, never literal colors or sizes. Changing
+  a value in :root (or .dark) restyles everything that references it.
+*/
+
+@theme inline {
+  /* Surfaces and text (theme-swappable via :root / .dark) */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-workspace: var(--workspace);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  /* Accent */
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+
+  /* Status (pills, toasts): solid fill + readable foreground */
+  --color-status-ready: var(--status-ready);
+  --color-status-ready-foreground: var(--status-ready-foreground);
+  --color-status-processing: var(--status-processing);
+  --color-status-processing-foreground: var(--status-processing-foreground);
+  --color-status-error: var(--status-error);
+  --color-status-error-foreground: var(--status-error-foreground);
+  --color-destructive: var(--destructive);
+
+  /* Fonts (wired to the next/font variables set in layout.tsx) */
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-heading: var(--font-geist-sans);
+  /* Overlay text matches the standard font pdf-lib draws on export (Helvetica). */
+  --font-overlay: Helvetica, Arial, sans-serif;
+
+  /* Radius scale: small, medium, large, pill (all derived from one base) */
+  --radius-sm: calc(var(--radius) - 2px);
+  --radius-md: calc(var(--radius) - 1px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-pill: 9999px;
+}
+
+@theme {
+  /*
+    Type scale. Tailwind v4 pairs each size with its line-height via the
+    `--text-*--line-height` companion token, so `text-h1` carries both.
+  */
+  --text-caption: 0.75rem;
+  --text-caption--line-height: 1rem;
+  --text-small: 0.875rem;
+  --text-small--line-height: 1.25rem;
+  --text-body: 1rem;
+  --text-body--line-height: 1.5rem;
+  --text-h3: 1.25rem;
+  --text-h3--line-height: 1.75rem;
+  --text-h2: 1.5rem;
+  --text-h2--line-height: 2rem;
+  --text-h1: 1.875rem;
+  --text-h1--line-height: 2.25rem;
+  --text-display: 2.25rem;
+  --text-display--line-height: 2.5rem;
+
+  /* Elevation. Subtle by design; this is a utility app, not a glossy site. */
+  --shadow-panel: 0 1px 2px 0 rgb(16 24 40 / 0.04), 0 1px 3px 0 rgb(16 24 40 / 0.07);
+  --shadow-popover:
+    0 8px 24px -6px rgb(16 24 40 / 0.12), 0 2px 6px -2px rgb(16 24 40 / 0.06);
+
+  /*
+    Spacing is the Tailwind v4 default: a 4pt grid (--spacing: 0.25rem), so
+    p-1 = 4px, p-2 = 8px, etc. Left as-is; no override needed.
+  */
+}
+
+:root {
+  /* Surfaces */
+  --background: #f6f7f9;
+  --card: #ffffff;
+  --card-foreground: #1a1d23;
+  --popover: #ffffff;
+  --popover-foreground: #1a1d23;
+  --workspace: #e4e7ec;
+
+  /* Text */
+  --foreground: #1a1d23;
+  --muted: #f1f3f5;
+  --muted-foreground: #667085;
+
+  /* Lines and focus */
+  --border: #e3e6eb;
+  --input: #e3e6eb;
+  --ring: #2563eb;
+
+  /* Accent (restrained blue) */
+  --primary: #2563eb;
+  --primary-foreground: #ffffff;
+
+  /* Neutral UI accents (hover/selected surfaces, not the brand accent) */
+  --secondary: #f1f3f5;
+  --secondary-foreground: #1a1d23;
+  --accent: #f1f3f5;
+  --accent-foreground: #1a1d23;
+
+  /* Status */
+  --status-ready: #16a34a;
+  --status-ready-foreground: #ffffff;
+  --status-processing: #b45309;
+  --status-processing-foreground: #ffffff;
+  --status-error: #dc2626;
+  --status-error-foreground: #ffffff;
+  --destructive: #dc2626;
+
+  --radius: 0.5rem;
+}
+
+.dark {
+  --background: #15171c;
+  --card: #1b1e24;
+  --card-foreground: #f3f4f6;
+  --popover: #1b1e24;
+  --popover-foreground: #f3f4f6;
+  --workspace: #0f1115;
+
+  --foreground: #f3f4f6;
+  --muted: #262a31;
+  --muted-foreground: #9aa3af;
+
+  --border: #2b2f37;
+  --input: #2b2f37;
+  --ring: #3b82f6;
+
+  --primary: #3b82f6;
+  --primary-foreground: #0b1220;
+
+  --secondary: #262a31;
+  --secondary-foreground: #f3f4f6;
+  --accent: #262a31;
+  --accent-foreground: #f3f4f6;
+
+  --status-ready: #22c55e;
+  --status-ready-foreground: #06220f;
+  --status-processing: #f59e0b;
+  --status-processing-foreground: #231405;
+  --status-error: #ef4444;
+  --status-error-foreground: #2a0909;
+  --destructive: #ef4444;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    @apply font-sans;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
